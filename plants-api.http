@@ -1,0 +1,11 @@
+### Get 🌴 All Plants
+GET https://openapi.programming-hero.com/api/plants
+
+### Get 🌴 All Categories
+GET https://openapi.programming-hero.com/api/categories
+
+### Get 🌴 Plants by Category (example: category 1)
+GET https://openapi.programming-hero.com/api/category/1
+
+### Get 🌴 Plant Detail (example: plant 1)
+GET https://openapi.programming-hero.com/api/plant/1
