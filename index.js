@@ -61,33 +61,65 @@ const treeDetails = (filterCategory = null) => {
 				);
 			}
 
+			const modal = document.getElementById("modal");
+			const modalName = document.getElementById("modal-name");
+			const modalImage = document.getElementById("modal-image");
+			const modalDescription =
+				document.getElementById("modal-description");
+			const modalCategory = document.getElementById("modal-category");
+			const modalPrice = document.getElementById("modal-price");
+			const closeModalBtn = document.getElementById("close-modal-btn");
+
 			plants.forEach((plant) => {
 				const card = document.createElement("div");
 				card.className =
-					"card bg-white shadow-md rounded overflow-hidden";
+					"card bg-white shadow-md rounded overflow-hidden cursor-pointer";
+
 				card.innerHTML = `
-					<figure>
-						<img class="w-full h-48 object-cover" src="${plant.image}" alt="${plant.name}" />
-					</figure>
-					<div class="p-4">
-					<h2 class="text-xl font-bold mb-2">${plant.name}</h2>
-						<p class="text-gray-700 line-clamp-3 mb-4">${plant.description}</p>
-						<div class="flex justify-between items-center mt-2 gap-2  mb-4">
-							<span class="bg-gray-200 px-2 py-1 rounded-full text-sm">${plant.category}</span>
-							<span class="flex items-center gap-1 font-semibold">
-								<i class="fa-solid fa-bangladeshi-taka-sign"></i> ${plant.price}
-							</span>
-						</div>
-						<button class="w-full bg-[#15803D] text-white py-2 rounded-full hover:bg-green-600 add-to-cart">Add to Cart</button>
-					</div>
-				`;
+    <figure>
+      <img class="w-full h-48 object-cover" src="${plant.image}" alt="${plant.name}" />
+    </figure>
+    <div class="p-4">
+      <h2 class="text-xl font-bold mb-2 cursor-pointer plant-name">${plant.name}</h2>
+      <p class="t line-clamp-3 mb-4">${plant.description}</p>
+      <div class="flex justify-between items-center mt-2 gap-2 mb-4">
+        <span class="bg-gray-200 px-2 py-1 rounded-full text-sm">${plant.category}</span>
+        <span class="flex items-center gap-1 font-semibold">
+          <i class="fa-solid fa-bangladeshi-taka-sign"></i> ${plant.price}
+        </span>
+      </div>
+      <button class="w-full bg-[#15803D] text-white py-2 rounded-full hover:bg-green-600 add-to-cart">Add to Cart</button>
+    </div>
+  `;
+
+				const treeName = card.querySelector(".plant-name");
+				treeName.addEventListener("click", () => {
+					modalName.textContent = plant.name;
+					modalImage.src = plant.image;
+					modalImage.alt = plant.name;
+					modalDescription.textContent = plant.description;
+					modalCategory.textContent = plant.category;
+					modalPrice.innerHTML = `<i class="fa-solid fa-bangladeshi-taka-sign"></i> ${plant.price}`;
+					modal.classList.remove("hidden");
+				});
 
 				const addToCartBtn = card.querySelector(".add-to-cart");
-				addToCartBtn.addEventListener("click", () => {
+				addToCartBtn.addEventListener("click", (event) => {
+					event.stopPropagation();
 					addToCart(plant);
 				});
 
 				plantContainer.appendChild(card);
+			});
+
+			closeModalBtn.addEventListener("click", () => {
+				modal.classList.add("hidden");
+			});
+
+			modal.addEventListener("click", (event) => {
+				if (event.target === modal) {
+					modal.classList.add("hidden");
+				}
 			});
 		});
 };
@@ -140,7 +172,7 @@ const updateCartBox = () => {
 	});
 
 	const total = document.createElement("p");
-	total.className = "font-semibold mt-2 border-t pt-2";
+	total.className = "font-semibold mt-2 pt-2";
 	total.textContent = `Total: ৳${totalPrice}`;
 	cartContainer.appendChild(total);
 };
